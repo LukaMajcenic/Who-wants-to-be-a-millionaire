@@ -1,0 +1,65 @@
+.Jokers {
+  -webkit-box-pack: end !important;
+      -ms-flex-pack: end !important;
+          justify-content: end !important;
+  margin-left: -7em;
+  margin-bottom: -1.2em;
+  width: 80% !important;
+  z-index: 2;
+}
+
+.Jokers .jokerAudienceWrapper {
+  position: relative;
+}
+
+.Jokers .jokerAudienceWrapper .AudienceCheckScores {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 3.3em;
+}
+
+.Jokers .FiftyFifty, .Jokers .Audience, .Jokers .AudienceCheckScores, .Jokers .Phone {
+  width: 6em;
+  background-size: 100% 100% !important;
+  aspect-ratio: 6/4;
+  border: 3px solid #DDD;
+  border-radius: 50%;
+  opacity: 0.4;
+  background: black;
+  color: white;
+}
+
+.Jokers .FiftyFifty:enabled, .Jokers .Audience:enabled, .Jokers .AudienceCheckScores:enabled, .Jokers .Phone:enabled {
+  opacity: 1;
+}
+
+.Jokers .FiftyFifty:enabled:hover, .Jokers .Audience:enabled:hover, .Jokers .AudienceCheckScores:enabled:hover, .Jokers .Phone:enabled:hover {
+  cursor: pointer;
+  -webkit-filter: brightness(1.1);
+          filter: brightness(1.1);
+  -webkit-transform: scale(1.03);
+          transform: scale(1.03);
+}
+
+button.FiftyFifty {
+  background: url(../img/Joker5050.png) !important;
+}
+
+button.Audience {
+  background: url(../img/JokerAudience.png) !important;
+}
+
+button.Phone {
+  background: url(../img/JokerPhone.png) !important;
+}
+/*# sourceMappingURL=Jokers.css.map */

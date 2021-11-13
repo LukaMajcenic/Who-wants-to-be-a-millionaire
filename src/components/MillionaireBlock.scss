@@ -1,0 +1,280 @@
+@import "_Mixings";
+@import "_Variables";
+
+$borderWidth: 4px;
+
+@mixin Sides($side, $forQuestion: false) {
+    background-color: white;
+    content: '';
+    display: block;
+    z-index: -1;
+    height: 2em;
+    width: 2em;
+    border-radius: 50% 0;
+    transform: rotate(45deg);
+    position: absolute;
+    @include GradientSide($blueShade1, $blueShade2);
+
+    @if($side == left)
+    {
+        left: -1em;
+        @if($forQuestion){left: -2em;}
+    }
+    @else if($side == right)
+    {
+        right: -1em;
+        @if($forQuestion){right: -2em;}
+    }
+
+    @if($forQuestion)
+    {
+        height: 4em;
+        width: 4em;
+    }
+}
+
+
+.millionaireBlockWrapper
+{
+    @include FlexCenter;
+}
+
+.millionaireBlock
+{
+    @include FlexCenter(left);
+    position: relative;
+    background-color: white;
+    height: 2em;
+    width: 100%;
+    z-index: 1;
+    @include GradientMain($blueShade1, $blueShade2);
+    color: whitesmoke;
+    
+    .text
+    {
+        max-height: 100%;
+        overflow-y: auto;
+        padding: 1px;
+        margin-left: -0.5em;
+    }
+}
+
+.millionaireBlock::before
+{
+    @include Sides(left);
+}
+
+.millionaireBlock::after
+{
+    @include Sides(right);
+}
+
+.millionaireBlockBorder
+{
+    @extend .millionaireBlock;
+    padding-top: $borderWidth;
+    padding-bottom: $borderWidth;
+    @include GradientMain($silverShade1, $silverShade2);
+    margin-left: 1.77em;
+    margin-right: 1.77em;
+}
+
+.millionaireBlockBorder::before
+{
+    left: calc(-1em - #{$borderWidth});
+    padding: $borderWidth;
+    @include GradientSide($silverShade1, $silverShade2);
+}
+
+.millionaireBlockBorder::after
+{
+    right: calc(-1em - #{$borderWidth});
+    padding: $borderWidth;
+    @include GradientSide($silverShade1, $silverShade2);
+}
+
+.forQuestion
+{
+    height: 4em;
+    width: calc(100% - 3em);
+    margin-left: 3.2em;
+    margin-right: 3.2em;
+
+    .millionaireBlock
+    {
+        height: 4em;
+        width: 100%;
+        line-height: 1.2em;
+        @include FlexCenter;
+    }   
+    
+    .millionaireBlock::before
+    {
+        @include Sides(left, true);
+    }   
+
+    .millionaireBlock::after
+    {
+        @include Sides(right, true);
+    }   
+}
+
+.forQuestion::before
+{
+    height: 4em;
+    width: 4em;
+    left: calc(-2em - 4px);
+}
+
+.forQuestion::after
+{
+    height: 4em;
+    width: 4em;
+    right: calc(-2em - 4px);
+}
+
+.forAnswer:hover
+{
+    cursor: pointer;
+
+    .millionaireBlock
+    { 
+        @include GradientMain(darken($blueShade1, 5%), darken($blueShade2, 5%));
+    }
+
+    .millionaireBlock::before, .millionaireBlock::after
+    {
+        @include GradientSide(darken($blueShade1, 5%), darken($blueShade2, 5%));
+    }
+}
+
+.forPrize
+{
+    font-weight: bold;
+
+    .millionaireBlock, .millionaireBlock::before, .millionaireBlock::after
+    { 
+        @include GradientMain($blueShade1, $blueShade1);
+    }
+
+    .number
+    {
+        text-align: right;
+        width: 5%;
+    }
+
+    .diamond
+    {
+        color: whitesmoke;
+        text-align: center;
+        width: 6%;
+    }
+}
+
+.forPrize.forCurrentPrize
+{
+    .millionaireBlock
+    { 
+        @include GradientMain(yellow, goldenrod);
+    }
+
+    .millionaireBlock::before, .millionaireBlock::after
+    {
+        @include GradientSide(yellow, goldenrod);
+    }
+
+    .amount
+    {
+        color: black;
+    }
+}
+
+.asButton
+{
+    width: auto;
+    padding: 2px 0;
+    font-size: 16px;
+
+    &::before
+    {
+        padding: 2px;
+        left: calc(-1em - 2px);
+    }
+
+    &::after
+    {
+        padding: 2px;
+        right: calc(-1em - 2px);
+    }
+
+    .text
+    {
+        margin: 0;
+        text-transform: uppercase;
+    }
+}
+
+/* .asButton::before, .asButton::after
+{
+    padding: 2px;
+} */
+
+.selected, .selected:hover
+{
+    .millionaireBlock
+    {
+        color: black;
+        @include GradientMain(yellow, goldenrod);
+    }
+
+    .millionaireBlock::before, .millionaireBlock::after
+    {
+        @include GradientSide(yellow, goldenrod);
+    }
+}
+
+.selected:hover
+{
+    cursor: unset;
+}
+
+.true, .true:hover
+{
+    .millionaireBlock
+    {
+        @include GradientMain($greenShade1, $greenShade2);
+    }
+
+    .millionaireBlock::before, .millionaireBlock::after
+    {
+        @include GradientSide($greenShade1, $greenShade2);
+    }
+}
+
+.false, .false:hover
+{
+    .millionaireBlock
+    {
+        @include GradientMain(red, maroon);
+    }
+
+    .millionaireBlock::before, .millionaireBlock::after
+    {
+        @include GradientSide(red, maroon);
+    }
+}
+
+.disabled:hover
+{
+    .millionaireBlock
+    {
+        @include GradientMain($blueShade1, $blueShade2);
+        cursor: initial;
+
+        &::before, &::after
+        {
+            @include GradientSide($blueShade1, $blueShade2);
+        }
+    } 
+}
+

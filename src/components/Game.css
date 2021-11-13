@@ -1,0 +1,62 @@
+.Game {
+  width: 100vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-size: 20px;
+  margin-bottom: 15vh;
+}
+
+.Game .Line {
+  height: 4px;
+  width: 100%;
+  background: -webkit-gradient(linear, left bottom, left top, from(#949494), color-stop(30%, #949494), color-stop(70%, #DDD), to(#DDD));
+  background: linear-gradient(0deg, #949494 0%, #949494 30%, #DDD 70%, #DDD 100%);
+  position: absolute;
+  border: none;
+}
+
+.Game > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.Game > div .millionaireBlockWrapper {
+  width: 80%;
+}
+
+.Game .Answers .millionaireBlockWrapper {
+  width: 40%;
+}
+
+.goldText {
+  color: gold;
+}
+
+.blackText {
+  color: black;
+}
+
+.whiteText {
+  color: whitesmoke;
+}
+/*# sourceMappingURL=Game.css.map */

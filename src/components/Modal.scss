@@ -1,0 +1,76 @@
+@import "_Mixings";
+@import "_Variables";
+
+.react-responsive-modal-container
+{
+    @include FlexCenter();
+
+    .modal
+    {
+        height: 60vh;
+        width: 30vw;
+        overflow-y: hidden !important;
+        background-color: $blueShade2 !important;
+        color: whitesmoke;
+        font-size: larger;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+
+        .header
+        {
+            @include FlexCenter(space-between);
+            padding: 0.5em;
+            background-color: $blueShade1;
+
+            .imgContainer
+            {
+                @include FlexCenter();
+                img
+                {
+                    height: 2em;
+                }
+            }
+
+            button
+            {
+                @include FlexCenter();
+                font-size: larger;
+                border: none;
+                padding: 0;
+                background: transparent;
+                color: whitesmoke;
+
+                &:hover
+                {
+                    cursor: pointer;
+                }
+            }
+        }
+        .body
+        {
+            flex: 1;
+            padding: 0.5em;
+        }
+    }
+}
+
+
+
+@keyframes opacityChange 
+{
+    0% {opacity: 0;}
+    1%, 100% {opacity: 1;}
+}
+
+@for $i from 0 to 20
+{
+    .delay#{$i} 
+    { 
+        opacity: 0;
+        animation-fill-mode: forwards;
+        animation-name: opacityChange;
+        animation-duration: 1s;
+        animation-delay: $i + s;
+    }
+}

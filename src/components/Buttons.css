@@ -1,0 +1,31 @@
+.confirmAnswer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50% 0;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  background: linear-gradient(315deg, #00155F 0%, #00155F 35%, #1434A4 65%, #1434A4 100%);
+  margin-right: -1em;
+  border: none;
+  color: #DDD;
+}
+
+.confirmAnswer:hover {
+  background: linear-gradient(315deg, #000f46 0%, #000f46 35%, #112d8d 65%, #112d8d 100%);
+  cursor: pointer;
+}
+
+.confirmAnswer svg {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+/*# sourceMappingURL=Buttons.css.map */

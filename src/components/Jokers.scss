@@ -1,0 +1,64 @@
+@import "_Mixings";
+@import "_Variables";
+
+.Jokers
+{
+    justify-content: end !important;
+    margin-left: -7em;
+    margin-bottom: -1.2em;
+    width: 80% !important;
+    z-index: 2;
+
+    .jokerAudienceWrapper
+    {
+        position: relative;
+
+        .AudienceCheckScores
+        {
+            @include FlexCenter;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 3.3em;
+        }
+    }
+
+    .FiftyFifty, .Audience, .AudienceCheckScores, .Phone
+    {
+        width: 6em;
+        background-size: 100% 100% !important;
+        aspect-ratio: 6/4;
+        border: 3px solid $silverShade1;
+        border-radius: 50%;
+        opacity: 0.4;
+        background: black;
+        color: white;
+
+        &:enabled
+        {
+            opacity: 1;
+
+            &:hover
+            {
+                cursor: pointer;
+                filter: brightness(1.1);
+                transform: scale(1.03);
+            }
+        }
+    }
+}
+
+button.FiftyFifty
+{
+    background: url(../img/Joker5050.png) !important;
+}
+
+button.Audience
+{
+    background: url(../img/JokerAudience.png) !important;
+}
+
+button.Phone
+{
+    background: url(../img/JokerPhone.png) !important;
+}

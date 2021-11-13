@@ -1,0 +1,122 @@
+@import "_Mixings";
+@import "_Variables";
+
+.ScoreboardDialog
+{
+    height: 100%;
+    width: 100%;
+    @include FlexCenter(end);
+    background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    z-index: 9999;
+    right: 0;
+
+    .Scoreboard
+    {
+        @include FlexCenter($vertical: end);
+        flex-direction: column;
+        color: whitesmoke;
+        height: 100%;
+        width: 30%;
+        background-color: $blueShade2;
+        overflow: hidden;
+        padding-left: 1em;
+        padding-right: 1em;
+        margin-right: -30%;
+
+        .text
+        {
+            width: 100%;
+        }
+
+        .millionaireBlockWrapper
+        {
+            width: 100%;
+        }
+
+        .millionaireBlockBorder, .millionaireBlockBorder::before, .millionaireBlockBorder::after
+        {
+            background: transparent;
+        }
+    }
+
+    .Border
+    {
+        height: 100%;
+        width: 5px;
+        @include GradientMain($silverShade1, $silverShade2);
+    }
+}
+
+$ScoreboardDialogDuration: 0.1s;
+$ScoreboardDuration: 0.5s;
+
+.ScoreboardDialog.showDialog
+{
+    animation: showScoreboardDialog $ScoreboardDialogDuration;
+    animation-fill-mode: forwards;
+
+    .Scoreboard
+    {
+        animation: showScoreboard $ScoreboardDuration;
+        animation-delay: $ScoreboardDialogDuration;
+        animation-fill-mode: forwards;
+    }
+}
+
+.ScoreboardDialog.hideDialog
+{
+    animation: hideScoreboardDialog $ScoreboardDialogDuration;
+    animation-delay: $ScoreboardDuration;
+    animation-fill-mode: forwards;
+
+    .Scoreboard
+    {
+        animation: hideScoreboard $ScoreboardDuration;
+        animation-fill-mode: forwards;
+    }
+}
+
+@keyframes hideScoreboardDialog {
+    0% {
+        right: 0;
+    }
+    1%, 100% {
+        right: -100%;
+    }
+}
+
+@keyframes showScoreboardDialog {
+    0% {
+        right: -100%;
+    }
+    1%, 100% {
+        right: 0;
+    }
+}
+
+@keyframes hideScoreboard {
+    from {
+        margin-right: 0;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+    to {
+        margin-right: -30%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@keyframes showScoreboard {
+    from {
+        margin-right: -30%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    to {
+        margin-right: 0;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+}

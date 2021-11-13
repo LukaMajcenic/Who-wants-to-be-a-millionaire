@@ -1,0 +1,181 @@
+.ScoreboardDialog {
+  height: 100%;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  z-index: 9999;
+  right: 0;
+}
+
+.ScoreboardDialog .Scoreboard {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: end;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: whitesmoke;
+  height: 100%;
+  width: 30%;
+  background-color: #00155F;
+  overflow: hidden;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-right: -30%;
+}
+
+.ScoreboardDialog .Scoreboard .text {
+  width: 100%;
+}
+
+.ScoreboardDialog .Scoreboard .millionaireBlockWrapper {
+  width: 100%;
+}
+
+.ScoreboardDialog .Scoreboard .millionaireBlockBorder, .ScoreboardDialog .Scoreboard .millionaireBlockBorder::before, .ScoreboardDialog .Scoreboard .millionaireBlockBorder::after {
+  background: transparent;
+}
+
+.ScoreboardDialog .Border {
+  height: 100%;
+  width: 5px;
+  background: -webkit-gradient(linear, left bottom, left top, from(#949494), color-stop(30%, #949494), color-stop(70%, #DDD), to(#DDD));
+  background: linear-gradient(0deg, #949494 0%, #949494 30%, #DDD 70%, #DDD 100%);
+}
+
+.ScoreboardDialog.showDialog {
+  -webkit-animation: showScoreboardDialog 0.1s;
+          animation: showScoreboardDialog 0.1s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.ScoreboardDialog.showDialog .Scoreboard {
+  -webkit-animation: showScoreboard 0.5s;
+          animation: showScoreboard 0.5s;
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.ScoreboardDialog.hideDialog {
+  -webkit-animation: hideScoreboardDialog 0.1s;
+          animation: hideScoreboardDialog 0.1s;
+  -webkit-animation-delay: 0.5s;
+          animation-delay: 0.5s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.ScoreboardDialog.hideDialog .Scoreboard {
+  -webkit-animation: hideScoreboard 0.5s;
+          animation: hideScoreboard 0.5s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes hideScoreboardDialog {
+  0% {
+    right: 0;
+  }
+  1%, 100% {
+    right: -100%;
+  }
+}
+
+@keyframes hideScoreboardDialog {
+  0% {
+    right: 0;
+  }
+  1%, 100% {
+    right: -100%;
+  }
+}
+
+@-webkit-keyframes showScoreboardDialog {
+  0% {
+    right: -100%;
+  }
+  1%, 100% {
+    right: 0;
+  }
+}
+
+@keyframes showScoreboardDialog {
+  0% {
+    right: -100%;
+  }
+  1%, 100% {
+    right: 0;
+  }
+}
+
+@-webkit-keyframes hideScoreboard {
+  from {
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+  to {
+    margin-right: -30%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@keyframes hideScoreboard {
+  from {
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+  to {
+    margin-right: -30%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@-webkit-keyframes showScoreboard {
+  from {
+    margin-right: -30%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  to {
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+}
+
+@keyframes showScoreboard {
+  from {
+    margin-right: -30%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  to {
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+}
+/*# sourceMappingURL=Scoreboard.css.map */

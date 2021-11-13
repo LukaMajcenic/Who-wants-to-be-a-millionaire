@@ -1,0 +1,49 @@
+@import "components/_Mixings";
+@import "components/_Variables";
+
+body
+{
+    overflow-x: hidden;
+}
+
+.App
+{
+    @include FlexCenter(space-between);
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: $blueShade2;
+    /* @include GradientMain($blueShade1, $blueShade2); */
+
+    >*
+    {
+        z-index: 1;
+    }
+
+    .buttons
+    {
+        @include FlexCenter(space-between);
+        width: calc(100% - 2em); 
+        margin: 1em;
+
+        >div
+        {
+            @include FlexCenter;
+        }
+    }
+
+    .background
+    {
+        position: absolute;
+        height: 80vh;
+        margin-top: 10vh;
+        opacity: 0.3;
+        z-index: 0;
+    }
+}
+
+button
+{
+    background: $blueShade2;
+}

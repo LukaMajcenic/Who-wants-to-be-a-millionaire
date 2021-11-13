@@ -1,0 +1,18 @@
+@import "_Variables";
+
+@mixin FlexCenter($horizontal: center, $vertical: center)
+{
+    display: flex;
+    justify-content: $horizontal;
+    align-items: $vertical;
+}
+
+@mixin GradientMain($From, $To)
+{
+    background: linear-gradient(0deg, $To 0%, $To 30%, $From 70%, $From 100%);
+}
+
+@mixin GradientSide($From, $To)
+{
+    background: linear-gradient(315deg, $To 0%, $To 35%, $From 65%, $From 100%);
+}
