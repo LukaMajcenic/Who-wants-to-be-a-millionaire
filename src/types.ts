@@ -1,4 +1,15 @@
-import { type } from "os";
+export class Key
+{
+    Key: string;
+    Difficulty: 1|2|3;
+    Used: boolean = false;
+
+    constructor(Key: string, Difficulty: 1|2|3)
+    {
+        this.Key = Key;
+        this.Difficulty = Difficulty;
+    }
+}
 
 export class Answer
 {
@@ -103,11 +114,24 @@ export class Prize
     amount: number;
     current: boolean;
     step: boolean;
+    difficulty: 1|2|3;
 
     constructor(amount: number)
     {
         this.amount = amount;
         this.current = amount == 100;
         this.step = amount == 1000 || amount == 32000 || amount == 1000000;
+        if(amount <= 1000)
+        {
+            this.difficulty = 1;
+        }
+        else if(amount <= 32000)
+        {
+            this.difficulty = 2;
+        }
+        else
+        {
+            this.difficulty = 3;
+        }
     }
 }

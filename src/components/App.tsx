@@ -1,25 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import random from 'random';
-import { firebase } from "./firebase";
-import { Answer, Question, Joker, Letter, Joker5050, JokerAudience, JokerType, JokerPhone, Prize } from './types';
+import { firebase } from "../firebase";
+import { Answer, Question, Joker, Letter, Joker5050, JokerAudience, JokerType, JokerPhone, Prize, Key } from '../types';
 import './App.css';
-import Game from './components/Game';
+import Game from './Game';
 import axios from "axios";
 import 'react-responsive-modal/styles.css';
-import { JokerAudienceChart } from './components/JokerAudienceChart';
-import { Modal } from './components/Modal';
-import Scoreboard from './components/Scoreboard';
-import Jokers from './components/Jokers';
-import { MillionaireBlock } from './components/MillionaireBlock';
+import { JokerAudienceChart } from './JokerAudienceChart';
+import { Modal } from './Modal';
+import Scoreboard from './Scoreboard';
+import Jokers from './Jokers';
+import { MillionaireBlock } from './MillionaireBlock';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
 
   const db: firebase.database.Database = firebase.database();
 
-  const [Questions, setQuestions] = useState<Question[] | undefined>();
   const [currentQuestion, setCurrentQuestion] = useState<Question | undefined>();
+  const [keys, setKeys] = useState<Key[]>([]);
   const [answerConfirmed, setAnswerConfirmed] = useState<boolean>(false);
-  const [questionKeys, setQuestionKeys] = useState<string[]>([]);
   const [joker5050, setJoker5050] = useState<Joker5050>(new Joker5050());
   const [jokerAudience, setJokerAudience] = useState<JokerAudience>(new JokerAudience());
   const [jokerPhone, setJokerPhone] = useState<JokerPhone>(new JokerPhone());
@@ -29,6 +29,7 @@ function App() {
     new Prize(64000), new Prize(125000), new Prize(250000), new Prize(500000), new Prize(1000000)]);
   const [showPrizes, setShowPrizes] = useState<boolean>(false);
   const [renderPrizes, setRenderPrizes] = useState<boolean>(false);
+  let navigate = useNavigate();
 
   function handleAnswerSelection(answer: Answer | null = null): void
   {
@@ -63,56 +64,15 @@ function App() {
 
       if(currentQuestion?.Answers.filter(a => a.Selected)[0].True)
       {
-        setNextQuestion();
+
         let index = prizes.findIndex(p => p.current);
         let modPrizes = [...prizes];
         modPrizes.map((p,i) => i == index+1 ? p.current = true : p.current = false);
         setPrizes(modPrizes);
+        setJokerAudience({...jokerAudience, usedInCurrentQuestion: false});
+        SetQuestion();
       }
     }, 1000)
-  }
-
-  function setNextQuestion(initial : boolean = false)
-  {
-    if(currentQuestion?.Answers.filter(ans => ans.Selected)[0].True || initial)
-    {
-      let randomKey : any = questionKeys[random.int(0, questionKeys?.length-1)];
-      let nextQuestion = Questions?.[randomKey];
-      let ABCD : string[] = ['A', 'B', 'C', 'D'];
-
-      if(nextQuestion != undefined)
-      {
-        //Shuffles answers
-        for (let i = nextQuestion.Answers.length - 1; i > 0; i--) 
-        {
-          const j = Math.floor(Math.random() * (i + 1));
-          [nextQuestion.Answers[i], nextQuestion.Answers[j]] = [nextQuestion.Answers[j], nextQuestion.Answers[i]];
-        }
-      }
-      nextQuestion?.Answers.forEach((ans, i) => {
-        ans.Letter = {Letter: ABCD[i] as "A"|"B"|"C"|"D", Index: i as 0|1|2|3};
-      })
-
-      setCurrentQuestion(Questions?.[randomKey]);
-      setAnswerConfirmed(false);
-      let torf: boolean = !jokerAudience.available && false;
-      setJokerAudience({...jokerAudience, usedInCurrentQuestion: torf});
-    }
-    else
-    {
-      if(currentQuestion != undefined)
-      {
-        let modifiedQuestion = {...currentQuestion};
-        modifiedQuestion.Answers?.forEach(ans => {
-          if(ans.True)
-          {
-            ans.Selected = true;
-          }
-        })
-
-        setCurrentQuestion(modifiedQuestion);
-      }
-    }
   }
 
   function restoreDatabase()
@@ -285,23 +245,48 @@ function App() {
 
     ref.on('value', (snapshot) => {
 
-      let keys : string[] = [];
+      let keys: Key[] = [];
       snapshot.forEach((child) => {
+
         if(child.key != null)
         {
-          keys.push(child.key);
+          keys.push(new Key(child.key, child.val().Difficulty));
         }
       });
-      setQuestionKeys(keys);
-      setQuestions(snapshot.val());
+      
+      setKeys(keys);
+      SetQuestion(keys);
     })
   }, [])
 
-  useEffect(() => {
+  useEffect(() => {console.log(keys)}, [currentQuestion])
 
-    setNextQuestion(true);
+  function SetQuestion(paramKeys: Key[] = []) {
 
-  }, [Questions])
+    let currentDifficulty = prizes.filter(p => p.current)[0].difficulty;
+    let avaiableKeys = paramKeys.length == 0 ? keys : paramKeys;
+    avaiableKeys = avaiableKeys.filter(k => k.Difficulty == currentDifficulty);
+    let randomKey = avaiableKeys[random.int(0, avaiableKeys.length-1)];
+
+    db.ref(`Questions/${randomKey?.Key}`).once('value', (snapshot) => {
+
+      let responseQuestion: Question = snapshot.val();
+
+      //shuffle answers
+      responseQuestion.Answers = responseQuestion.Answers
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
+      
+      //set up letters
+      let ABCD: string[] = ["A","B"," C","D"];
+      responseQuestion.Answers.forEach((a,i) => {
+        a.Letter = {Letter: ABCD[i] as "A"|"B"|"C"|"D", Index: i as 0|1|2|3};
+      })
+
+      setCurrentQuestion(responseQuestion);
+    })
+  }
 
   return (
     <>
@@ -309,7 +294,7 @@ function App() {
     <div className="App">
 
       <div className="buttons">
-        <button>Test</button>
+        <MillionaireBlock asButton forAnswer onClick={() => navigate("/")}>{currentQuestion?.Difficulty}</MillionaireBlock>
         <MillionaireBlock asButton forAnswer onClick={() => {setShowPrizes(true); setRenderPrizes(true)}}>Nagrade</MillionaireBlock>
       </div>
 
@@ -322,12 +307,12 @@ function App() {
 
       
 
-      <Modal open={jokerAudience.modalOpen} imageSrc={require("./img/JokerAudience.png").default} 
+      <Modal open={jokerAudience.modalOpen} imageSrc={require("../img/JokerAudience.png").default} 
       onClose={() => setJokerAudience({...jokerAudience, modalOpen: false})}>
         <JokerAudienceChart data={jokerAudience.percentages}></JokerAudienceChart>
       </Modal>
 
-      <Modal open={jokerPhone.modalOpen} imageSrc={require("./img/JokerPhone.png").default} 
+      <Modal open={jokerPhone.modalOpen} imageSrc={require("../img/JokerPhone.png").default} 
       onClose={() => setJokerPhone({...jokerPhone, modalOpen: false})}>
         {jokerPhone.modalText.map((s,i) => <div key={i} className={"delay"+i}>{s}<br/></div>)}
       </Modal>
@@ -335,7 +320,7 @@ function App() {
       {renderPrizes && <Scoreboard prizes={prizes} showPrizes={showPrizes} handleCloseButton={() => setShowPrizes(false)}
       handleJokerSelection={handleJokerSelection} joker5050={joker5050} jokerAudience={jokerAudience} jokerPhone={jokerPhone}/>}
 
-      <img className="background" src={require('./img/Logo.png').default}/>
+      <img className="background" src={require('../img/Logo.png').default}/>
       
     </div>
     </>
